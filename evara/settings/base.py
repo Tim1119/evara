@@ -18,6 +18,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(" ")
 # Application definition
 
 INSTALLED_APPS = [
+    'drf_yasg',
     'django.contrib.sites',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -25,6 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'apps.authentication'
 ]
 
 SITE_ID = 1
@@ -129,17 +131,21 @@ MEDIA_ROOT = BASE_DIR / "media"
 DRF_STANDARDIZED_ERRORS = {"EXCEPTION_FORMATTER_CLASS": "shared.custom_exception_handler.MyExceptionFormatter"}
 
 REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
-    'DEFAULT_RENDERER_CLASSES': (
-        'shared.custom_renderer.SuccessJsonRenderer',
-       'rest_framework.renderers.BrowsableAPIRenderer',
-       'rest_framework.renderers.JSONRenderer',
-    ),
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-         'rest_framework.authentication.TokenAuthentication',
-    ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    )
+}
+
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
 }
 
 
@@ -186,19 +192,24 @@ DRF_STANDARDIZED_ERRORS = {
 DJOSER = {
     'LOGIN_FIELD': 'email',
     'USER_CREATE_PASSWORD_RETYPE': True,
-    'SEND_ACTIVATION_EMAIL': True,
-    'ACTIVATION_URL': 'activate/{uid}/{token}',
-    'PASSWORD_RESET_CONFIRM_URL': 'password/reset/confirm/{uid}/{token}',
+    'SEND_ACTIVATION_EMAIL': False, 
+    'PASSWORD_RESET_CONFIRM_URL': 'http://localhost:3000/password-reset/confirm/{uid}/{token}',
     'SERIALIZERS': {
-        'user_create': 'apps.authentication.serializers.CustomUserCreateSerializer',
-        'user': 'apps.authentication.serializers.CustomUserSerializer',
-        'current_user': 'apps.authentication.serializers.CustomUserSerializer',
+        'user_create': 'apps.authentication.serializers.UserCreateSerializer',
+        'user': 'apps.authentication.serializers.UserSerializer',
+        'current_user': 'apps.authentication.serializers.UserSerializer',
     },
     'EMAIL': {
-        'activation': 'apps.authentication.email.ActivationEmail',
         'password_reset': 'apps.authentication.email.PasswordResetEmail',
     }
 }
+
+
+
+AUTH_USER_MODEL = 'authentication.User'
+
+FRONTEND_BASE_URL = "http://localhost:3000"
+
 
 
 
