@@ -51,8 +51,6 @@ class ProductAttribute(models.Model):
     def __str__(self):
         return f"{self.name} ({self.product_type.name})"
     
-    
-    
     class Meta:
         verbose_name = 'Product Attribute'
         verbose_name_plural = 'Product Attributes'
