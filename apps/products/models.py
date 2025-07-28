@@ -68,9 +68,7 @@ class ProductAttributeValue(models.Model):
     def __str__(self):
         return f"{self.attribute.name}: {self.value}"
 
-
-   
-    
+ 
     class Meta:
         verbose_name = 'Product Attribute Value'
         verbose_name_plural = 'Product Attributes Values'
