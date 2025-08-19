@@ -73,3 +73,5 @@ class ProductAttributeValue(models.Model):
         verbose_name_plural = 'Product Attributes Values'
         ordering = ['-created_at']
 
+
+
