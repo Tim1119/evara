@@ -12,6 +12,8 @@ class ProductTypeAdmin(admin.ModelAdmin):
 
 
 
+
+
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'product_type', 'price', 'created_at')
